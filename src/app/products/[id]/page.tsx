@@ -1,6 +1,6 @@
 import { products } from "@/app/product-data";
 import Image from "next/image";
-import { notFound } from "next/navigation"; // Для обработки несуществующих продуктов
+import { notFound } from "next/navigation";
 
 export default function Product({ params }: Readonly<{ params: { id: string } }>) {
     const product = products.find((p) => p.id === params.id);
