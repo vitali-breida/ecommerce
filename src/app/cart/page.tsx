@@ -13,7 +13,7 @@ export default function Cart() {
     const total = cartProducts.reduce((sum, product) => sum + product.price, 0);
 
     return (
-        <main className="bg-gradient-to-br from-yellow-100 via-pink-100 to-orange-200 min-h-screen py-10 px-6 flex flex-col items-center">
+        <main className="bg-gradient-to-br from-yellow-100 via-gray-100 to-pink-200 min-h-screen py-10 px-6 flex flex-col items-center">
             {/* Page Header */}
             <header className="text-center mb-6">
                 <h1 className="text-5xl font-bold text-orange-600 drop-shadow-lg uppercase">
