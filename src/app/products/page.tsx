@@ -1,6 +1,6 @@
-import ProductList from "@/app/ProductList";
-import {products} from "@/app/product-data";
+import ProductList from '@/app/ProductList';
+import { products } from '@/app/product-data';
 
 export default function Products() {
-    return <ProductList products={products}/>
+  return <ProductList products={products} />;
 }
