@@ -1,6 +1,8 @@
 import ProductList from '@/app/ProductList';
-import { products } from '@/app/product-data';
 
-export default function Products() {
+export default async function Products() {
+  const json = await fetch('http:///localhost:3000/api/products');
+  const products = await json.json();
+
   return <ProductList products={products} />;
 }
