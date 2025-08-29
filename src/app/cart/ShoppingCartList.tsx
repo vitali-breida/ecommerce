@@ -9,8 +9,17 @@ export default function ShoppingCartList({
 }: Readonly<{
   initialCartProducts: Product[];
 }>) {
-  const [cartProducts] = useState(initialCartProducts);
+  const [cartProducts, setCartProducts] = useState(initialCartProducts);
   const total = cartProducts.reduce((sum, product) => sum + product.price, 0);
+
+  async function handleRemoveFromCart(productId: string) {
+    const updatedProductsJson = await fetch('http://localhost:3000/api/users/2/cart/', {
+      method: 'DELETE',
+      body: JSON.stringify({ productId }),
+    });
+    const updatedProducts = await updatedProductsJson.json();
+    setCartProducts(updatedProducts);
+  }
 
   return (
     <main className="bg-gradient-to-br from-yellow-100 via-gray-100 to-pink-200 min-h-screen py-10 px-6 flex flex-col items-center">
@@ -58,6 +67,14 @@ export default function ShoppingCartList({
                     View Details
                   </Link>
                 </div>
+
+                {/* Remove from Cart Button */}
+                <button
+                  onClick={() => handleRemoveFromCart(product.id)}
+                  className="text-white bg-gradient-to-r from-red-500 to-red-700 py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:bg-red-600"
+                >
+                  Remove
+                </button>
               </div>
             ))}
 
