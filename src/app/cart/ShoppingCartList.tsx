@@ -13,10 +13,13 @@ export default function ShoppingCartList({
   const total = cartProducts.reduce((sum, product) => sum + product.price, 0);
 
   async function handleRemoveFromCart(productId: string) {
-    const updatedProductsJson = await fetch('http://localhost:3000/api/users/2/cart/', {
-      method: 'DELETE',
-      body: JSON.stringify({ productId }),
-    });
+    const updatedProductsJson = await fetch(
+      process.env.NEXT_PUBLIC_SITE_URL + '/api/users/2/cart/',
+      {
+        method: 'DELETE',
+        body: JSON.stringify({ productId }),
+      }
+    );
     const updatedProducts = await updatedProductsJson.json();
     setCartProducts(updatedProducts);
   }

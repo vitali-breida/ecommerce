@@ -1,8 +1,10 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Product({ params }: Readonly<{ params: { id: string } }>) {
-  const json = await fetch(`http://localhost:3000/api/products/${params.id}`);
+  const json = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/products/${params.id}`);
   const product = await json.json();
 
   if (!product) {
