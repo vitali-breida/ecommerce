@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/app/product-data';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 export default function ShoppingCartList({
   initialCartProducts,
@@ -10,7 +10,10 @@ export default function ShoppingCartList({
   initialCartProducts: Product[];
 }>) {
   const [cartProducts, setCartProducts] = useState(initialCartProducts);
-  const total = cartProducts.reduce((sum, product) => sum + product.price, 0);
+  const total = useMemo(
+    () => cartProducts.reduce((sum, product) => sum + product.price, 0),
+    [cartProducts]
+  );
 
   async function handleRemoveFromCart(productId: string) {
     const updatedProductsJson = await fetch(
