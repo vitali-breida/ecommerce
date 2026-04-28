@@ -1,8 +1,15 @@
 import { NextRequest } from 'next/server';
 import { connectToDB } from '@/app/api/db';
 
-export async function GET(request: NextRequest, { params }: { params: { id: number } }) {
-  const userId = params.id;
+type DynamicParams = Promise<{ id: string }> | { id: string };
+
+async function resolveUserId(params: DynamicParams) {
+  const resolvedParams = await Promise.resolve(params);
+  return resolvedParams.id;
+}
+
+export async function GET(request: NextRequest, { params }: { params: DynamicParams }) {
+  const userId = await resolveUserId(params);
   const { db } = await connectToDB();
   const userCart = await db.collection('carts').findOne({ userId: userId });
   const userProducts =
@@ -30,8 +37,8 @@ interface CartDocument {
   cartIds: string[];
 }
 
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
-  const userId = params.id;
+export async function POST(request: NextRequest, { params }: { params: DynamicParams }) {
+  const userId = await resolveUserId(params);
   const body: CartBody = await request.json();
   const productId = body.productId;
   const { db } = await connectToDB();
@@ -59,8 +66,8 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
   });
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-  const userId = params.id;
+export async function DELETE(request: NextRequest, { params }: { params: DynamicParams }) {
+  const userId = await resolveUserId(params);
   const body = await request.json();
   const productId = body.productId;
 

@@ -1,10 +1,14 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { getBaseUrl } from '@/app/get-base-url';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Product({ params }: Readonly<{ params: { id: string } }>) {
-  const json = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/products/${params.id}`);
+export default async function Product({
+  params,
+}: Readonly<{ params: Promise<{ id: string }> | { id: string } }>) {
+  const { id } = await Promise.resolve(params);
+  const json = await fetch(`${getBaseUrl()}/api/products/${id}`);
   const product = await json.json();
 
   if (!product) {
